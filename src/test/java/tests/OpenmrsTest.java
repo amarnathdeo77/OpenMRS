@@ -3,6 +3,7 @@ package tests;
 import Base.BaseTest;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ public class OpenmrsTest extends BaseTest {
         this.driver.get(config.get("url").toString());
     }
 
-
     @Test(description = "Login into application", priority=1)
     public void LoginTest() {
         JSONObject testData = (JSONObject) data.get(testCaseName);
@@ -24,7 +24,8 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.clickUtil.clickElement(pageObjectManager.loginPage.getLoginBtn());
         //Verify Login successful
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.homePage.getLoginSuccess(), testData.get("SuccessMsg").toString());
-
+        pageObjectManager.waitUtil.sleepWait(3000);
+        pageObjectManager.clickUtil.clickElement(pageObjectManager.logoutPage.getLogout());
     }
 
     @Test(description = "Register a Patient", priority=2)
@@ -55,6 +56,8 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.waitUtil.waitForElement(pageObjectManager.registerPatientPage.getConfirmPatient());
         // Verify Patient getting added
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.registerPatientPage.getConfirmPatient(),testData.get("GivenName").toString());
+        pageObjectManager.waitUtil.sleepWait(5000);
+        pageObjectManager.clickUtil.clickElement(pageObjectManager.logoutPage.getLogout());
     }
 
     @Test(description = "Find a Patient from available list",priority=3)
@@ -71,6 +74,9 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.waitUtil.sleepWait(3000);
         //Verify Search Result
         pageObjectManager.verifyUtil.validatePatientRecord(pageObjectManager.findPatientPage.getPatientSearchResult(), "Name",registrationData.get("GivenName")+" "+registrationData.get("MiddleName")+" "+registrationData.get("FamilyName"));
+
+        pageObjectManager.waitUtil.sleepWait(5000);
+        pageObjectManager.clickUtil.clickElement(pageObjectManager.logoutPage.getLogout());
     }
 
     @Test(description = "Find a Patient from available list", priority=4)
@@ -91,6 +97,9 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.viewPatientPage.getFamilyName(),registrationData.get("FamilyName").toString());
         Assert.assertTrue(pageObjectManager.viewPatientPage.getAddress().getText().contains(registrationData.get("Address").toString()), "Address verification failed");
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.viewPatientPage.getPhoneNumber(),registrationData.get("Phone").toString());
+
+        pageObjectManager.waitUtil.sleepWait(5000);
+        pageObjectManager.clickUtil.clickElement(pageObjectManager.logoutPage.getLogout());
     }
 
     @Test(description = "Find a Patient from available list", priority=5)
@@ -109,6 +118,8 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.waitUtil.sleepWait(3000);
         Assert.assertTrue(pageObjectManager.deletePatientPage.getFindRecordHeader().isDisplayed(), "Find patients page is displayed");
 
+        pageObjectManager.waitUtil.sleepWait(3000);
+        pageObjectManager.clickUtil.clickElement(pageObjectManager.logoutPage.getLogout());
     }
 
     @Test(description = "Logout from Application", priority=6)
