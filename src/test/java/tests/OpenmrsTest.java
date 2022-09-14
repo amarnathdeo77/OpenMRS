@@ -3,6 +3,7 @@ package tests;
 import Base.BaseTest;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,7 +14,8 @@ public class OpenmrsTest extends BaseTest {
         this.driver.get(config.get("url").toString());
     }
 
-    @Test(description = "Login into application")
+
+    @Test(description = "Login into application", priority=1)
     public void LoginTest() {
         JSONObject testData = (JSONObject) data.get(testCaseName);
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getUsername(), config.get("Username").toString());
@@ -25,7 +27,7 @@ public class OpenmrsTest extends BaseTest {
 
     }
 
-    @Test(description = "Register a Patient")
+    @Test(description = "Register a Patient", priority=2)
     public void PatientRegistrationTest() {
         JSONObject testData = (JSONObject) data.get(testCaseName);
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getUsername(), config.get("Username").toString());
@@ -55,7 +57,7 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.registerPatientPage.getConfirmPatient(),testData.get("GivenName").toString());
     }
 
-    @Test(description = "Find a Patient from available list")
+    @Test(description = "Find a Patient from available list",priority=3)
     public void FindPatient() {
         JSONObject testData = (JSONObject) data.get(testCaseName);
         JSONObject registrationData = (JSONObject) data.get("PatientRegistrationTest");
@@ -66,13 +68,13 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.clickUtil.clickElement(pageObjectManager.findPatientPage.getPatientRegistration());
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.findPatientPage.getFindPatientRecord(),testData.get("FindPatientHeading").toString());
         pageObjectManager.setUtil.setElement(pageObjectManager.findPatientPage.getFindPatientSearch(),registrationData.get("GivenName")+" "+registrationData.get("MiddleName")+" "+registrationData.get("FamilyName"));
+        pageObjectManager.waitUtil.sleepWait(3000);
         //Verify Search Result
-        pageObjectManager.verifyUtil.validatePatientRecord(pageObjectManager.findPatientPage.getPatientSearchResult(), "Name",testData.get("GivenName").toString());
+        pageObjectManager.verifyUtil.validatePatientRecord(pageObjectManager.findPatientPage.getPatientSearchResult(), "Name",registrationData.get("GivenName")+" "+registrationData.get("MiddleName")+" "+registrationData.get("FamilyName"));
     }
 
-    @Test(description = "Find a Patient from available list")
+    @Test(description = "Find a Patient from available list", priority=4)
     public void ViewPatient() {
-        JSONObject testData = (JSONObject) data.get(testCaseName);
         JSONObject registrationData = (JSONObject) data.get("PatientRegistrationTest");
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getUsername(), config.get("Username").toString());
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getPassword(), config.get("Password").toString());
@@ -91,9 +93,8 @@ public class OpenmrsTest extends BaseTest {
         pageObjectManager.verifyUtil.verifyText(pageObjectManager.viewPatientPage.getPhoneNumber(),registrationData.get("Phone").toString());
     }
 
-    @Test(description = "Find a Patient from available list")
+    @Test(description = "Find a Patient from available list", priority=5)
     public void DeletePatient() {
-        JSONObject testData = (JSONObject) data.get(testCaseName);
         JSONObject registrationData = (JSONObject) data.get("PatientRegistrationTest");
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getUsername(), config.get("Username").toString());
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getPassword(), config.get("Password").toString());
@@ -110,9 +111,8 @@ public class OpenmrsTest extends BaseTest {
 
     }
 
-    @Test(description = "Logout from Application")
+    @Test(description = "Logout from Application", priority=6)
     public void LogOut() {
-        JSONObject testData = (JSONObject) data.get(testCaseName);
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getUsername(), config.get("Username").toString());
         pageObjectManager.setUtil.setElement(pageObjectManager.loginPage.getPassword(), config.get("Password").toString());
         pageObjectManager.clickUtil.clickElement(pageObjectManager.loginPage.getLocOfPatient());
