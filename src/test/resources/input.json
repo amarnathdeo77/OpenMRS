@@ -1,0 +1,22 @@
+{
+  "comment": "JSON file with all the Test Data",
+  "LoginTest": {
+    "LocOfPatient": "Inpatient ward",
+    "SuccessMsg": "Logged in as Super User (admin) at Inpatient Ward."
+  },
+  "PatientRegistrationTest": {
+    "GivenName": "Amar",
+    "MiddleName": "Nath",
+    "FamilyName": "Deo",
+    "BirthYear": "43",
+    "BirthMonth": "10",
+    "Address": "RKM Layout",
+    "Phone": "8867555140",
+    "RelationShipType": "Parent",
+    "RelationShipName": "Abhay"
+  },
+  "FindPatient": {
+    "FindPatientHeading": "Find Patient Record",
+  }
+
+}

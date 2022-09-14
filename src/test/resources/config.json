@@ -1,0 +1,8 @@
+{
+  "comment": "JSON file with all the Config Data",
+  "url": "https://demo.openmrs.org/openmrs/ ",
+  "browser": "FF",
+  "Username": "Admin ",
+  "Password": "Admin123"
+
+}
